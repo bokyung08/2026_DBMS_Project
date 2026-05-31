@@ -1,0 +1,37 @@
+# OS / editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Logs / temporary files
+*.log
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Archives generated for submission
+*.zip
+*.7z
+*.rar
+
+# Database/runtime artifacts
+*.db
+*.sqlite
+*.sqlite3
+*.bak
+*.dump
+*.sql.gz
+
+# Python / Node caches, if helper scripts are added later
+__pycache__/
+*.py[cod]
+node_modules/
+dist/
+build/
+
