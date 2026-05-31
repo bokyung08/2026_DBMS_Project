@@ -1,8 +1,12 @@
 # 🎓 Chonnam University Course & Grade DB
 
-University course registration and grade management database designed from requirements analysis to BCNF normalization, SQL implementation, integrity validation, and index-based query optimization.
+> University course registration and grade management database designed from requirements analysis to BCNF normalization, SQL implementation, integrity validation, and index-based query optimization.
 
-MySQL Database Design SQL BCNF InnoDB Portfolio
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat-square&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![SQL](https://img.shields.io/badge/SQL-DDL%20%7C%20DML-336791?style=flat-square&logo=postgresql&logoColor=white)]()
+[![InnoDB](https://img.shields.io/badge/Engine-InnoDB-005C84?style=flat-square&logo=mysql&logoColor=white)]()
+[![Normalization](https://img.shields.io/badge/Normalization-BCNF-6A5ACD?style=flat-square)]()
+[![Portfolio](https://img.shields.io/badge/Portfolio-Database%20Design-2E8B57?style=flat-square)]()
 
 ## 📌 Overview
 
@@ -155,4 +159,3 @@ The `한글_제출본문/` directory contains Markdown-formatted Korean body tex
 - MySQL 8.0.18 or later is recommended for `EXPLAIN ANALYZE`.
 - The database name used in the scripts is `bokyung`.
 - Generated DB dumps, local archives, editor settings, and runtime artifacts are excluded through `.gitignore`.
-
