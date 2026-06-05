@@ -1,6 +1,6 @@
 # 전남대학교 학생 정보·성적관리 DB 제출본
 
-먼저 이것만 실행하면 됩니다.
+프로젝트 통합 실행 
 
 ```powershell
 # 프로젝트 루트에서 실행하는 경우
@@ -8,9 +8,7 @@ cd submission
 mysql --local-infile=1 -u root -p < sql/run_all_for_grading.sql
 ```
 
-터미널을 이미 `submission` 폴더에서 열었다면 두 번째 줄만 실행하면 됩니다.
-
-`sql/run_all_for_grading.sql` 한 번 실행으로 데이터베이스 생성, 테이블 생성, 기본 데이터 입력, 전남대학교 공식 공개 학과 데이터 반영, View/Procedure/Transaction/Index, 대용량 SQL 데이터 실험, CSV 적재 실험, 최종 검증 조회까지 모두 진행됩니다.
+`sql/run_all_for_grading.sql` 한 번 실행으로 데이터베이스 생성, 테이블 생성, 기본 데이터 입력, 전남대학교 공식 공개 학과 데이터 반영, View/Procedure/Transaction/Index, 대용량 SQL 데이터 실험, CSV 적재 실험, 최종 검증 조회까지 모두 진행
 
 ## 1. 실행 전 조건
 
@@ -19,9 +17,8 @@ mysql --local-infile=1 -u root -p < sql/run_all_for_grading.sql
 | DBMS | MySQL 8.0 이상 권장 |
 | 실행 위치 | `submission` 폴더 안 |
 | CSV 옵션 | `mysql --local-infile=1` 옵션 필요 |
-| 문자셋 | UTF-8, `utf8mb4` |
 
-`LOAD DATA LOCAL INFILE`이 막히면 MySQL에서 아래를 한 번 실행한 뒤 다시 실행합니다.
+`LOAD DATA LOCAL INFILE`이 오류가 난다면 MySQL에서 아래를 한 번 실행한 뒤 다시 실행
 
 ```sql
 SET GLOBAL local_infile = 1;
@@ -49,7 +46,6 @@ submission/
   tools/
     generate_large_dummy_csv.py
     crawl_jnu_public_academic_data.py
-    draw_schema_diagrams.py
   data/
     jnu_public_departments.csv
     large_csv/
@@ -75,7 +71,7 @@ submission/
 | `tools/crawl_jnu_public_academic_data.py` | 전남대학교 공식 공개 학과 목록을 다시 수집하여 CSV와 SQL seed 재생성 | `python tools/crawl_jnu_public_academic_data.py` |
 | `tools/draw_schema_diagrams.py` | ERD, 관계 스키마, 최소 관계대응수 다이어그램 재생성 | `python tools/draw_schema_diagrams.py` |
 
-Python 도구는 데이터 또는 다이어그램을 다시 만들 때만 실행합니다. 기본 검증에는 SQL 통합 실행만 필요합니다.
+Python 도구는 데이터 또는 다이어그램을 다시 만들 때만 실행(검증 과정에서는 불필요), 기본 검증에는 SQL 통합 실행만 필요
 
 ## 6. 실행 후 확인값
 
