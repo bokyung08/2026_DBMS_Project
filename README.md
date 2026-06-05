@@ -1,161 +1,99 @@
-# 🎓 Chonnam University Course & Grade DB
+# Chonnam University Student Grade Management DB
 
-> University course registration and grade management database designed from requirements analysis to BCNF normalization, SQL implementation, integrity validation, and index-based query optimization.
+전남대학교의 학생 정보, 수강신청, 강의, 성적을 관리하는 MySQL 기반 학사행정 데이터베이스 프로젝트입니다. 공식 공개 학과 정보와 개인정보가 없는 대용량 더미 CSV를 함께 사용해 스키마 설계, 무결성, 고급 SQL 기능, 인덱스 최적화를 검증합니다.
 
-[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat-square&logo=mysql&logoColor=white)](https://www.mysql.com/)
-[![SQL](https://img.shields.io/badge/SQL-DDL%20%7C%20DML-336791?style=flat-square&logo=postgresql&logoColor=white)]()
-[![InnoDB](https://img.shields.io/badge/Engine-InnoDB-005C84?style=flat-square&logo=mysql&logoColor=white)]()
-[![Normalization](https://img.shields.io/badge/Normalization-BCNF-6A5ACD?style=flat-square)]()
-[![Portfolio](https://img.shields.io/badge/Portfolio-Database%20Design-2E8B57?style=flat-square)]()
+## 핵심 기능
 
-## 📌 Overview
-
-This repository contains a database systems project for modeling and implementing a university course registration and grade management system.
-
-The project covers the full relational database design workflow: requirement definition, conceptual modeling, logical schema design, functional dependency analysis, normalization, SQL DDL/DML implementation, integrity constraints, views, stored procedures, transactions, and performance optimization with indexes.
-
-The domain is based on Chonnam University course administration. Students register for lectures, professors manage lectures, departments own students and professors, and grades are assigned to completed enrollments.
-
-## 🛠️ Tech Stack
-
-| Category | Tools / Concepts |
+| 구분 | 내용 |
 | --- | --- |
-| DBMS | MySQL 8.0 |
-| Storage Engine | InnoDB |
-| SQL | DDL, DML, JOIN, VIEW, STORED PROCEDURE, TRANSACTION |
-| Data Modeling | ERD, Crow's Foot notation, relational schema mapping |
-| Normalization | 1NF, 2NF, 3NF, BCNF |
-| Integrity | PK, FK, UNIQUE, CHECK, ENUM, ON DELETE / ON UPDATE |
-| Optimization | Index design, EXPLAIN, EXPLAIN ANALYZE |
-| Documentation | Markdown project reports, schema definition, validation notes |
+| 데이터 모델 | `Dept`, `Professor`, `Student`, `Lecture`, `Enrollment`, `Grade` |
+| 공식 공개 데이터 | 전남대학교 공개 학과명, 단과대학명, 전화번호 114건 |
+| 대용량 데이터 | 학생 10,000행, 강의 1,000행, 수강 50,000행, 성적 50,000행 |
+| 고급 SQL | View, Stored Procedure, Transaction, Index, EXPLAIN |
+| 실행 패키지 | `submission/` 폴더에서 한 번에 실행 가능 |
 
-## 📂 Repository Layout
+## 폴더 구조
 
 ```text
 dbms/
-  README.md                    Project overview and execution guide
-  sql/
-    schema.sql                 Database, tables, constraints, sample data, validation queries
-    optimization.sql           Views, procedure, transaction examples, bulk data, index tests
+  README.md
   docs/
-    01_요구사항지시서.md          Requirements and entity/relationship definition
-    02_스키마정의서.md            Logical schema and FK mapping
-    03_개발완료보고서.md          Modeling, FD analysis, normalization, SQL validation
-    04_자체검토보고서.md          Self-review and requirement checklist
-    05_프로젝트_이해가이드.md      Project explanation guide
-    erd_description.md         Text ERD and relationship explanation
-  한글_제출본문/
-    문서1_요구사항지시서.md        Korean submission body, document 1
-    문서2_스키마정의서.md          Korean submission body, document 2
-    문서3_개발완료보고서.md        Korean submission body, document 3
-  screenshots/
-    실행결과_텍스트증거.md         Text evidence for SQL execution results
-  제출용/                       Submission-ready copy of core docs and SQL files
+    01_요구사항지시서.md
+    02_스키마정의서.md
+    03_개발완료보고서.md
+    erd_description.md
+  sql/
+  tools/
+  data/
+  diagrams/
+  submission/
+    README.md
+    sql/
+    tools/
+    data/
 ```
 
-## 🧩 Database Model
+`submission/`은 실행 확인용 패키지입니다. 보고서 파일은 별도로 관리하고, 이 폴더에는 코드·데이터·README만 둡니다.
 
-| Entity | Type | Primary Key | Description |
-| --- | --- | --- | --- |
-| Student | Strong entity | `stuid` | Student profile and department affiliation |
-| Dept | Strong entity | `deptid` | Department master data |
-| Professor | Strong entity | `pid` | Professor profile and department affiliation |
-| Lecture | Strong entity | `lid` | Lecture opened by a professor |
-| Enrollment | Weak entity | `enrollid` | Course registration between student and lecture |
-| Grade | Weak entity | `gradeid` | Grade assigned to an enrollment |
+## 빠른 실행
 
-## 🔗 Relationship Mapping
+프로젝트 루트에서 실행합니다.
 
-| Relationship | Cardinality | Implementation |
-| --- | --- | --- |
-| Student - Dept | N:1 | `Student.deptid` FK |
-| Professor - Dept | N:1 | `Professor.deptid` FK |
-| Professor - Student | 1:N | `Student.advisor_pid` FK, nullable |
-| Professor - Lecture | 1:N | `Lecture.pid` FK |
-| Student - Lecture | M:N | resolved through `Enrollment` |
-| Enrollment - Grade | 1:1 | `Grade.enrollid` FK + UNIQUE |
-
-## ⚙️ Installation
-
-Install MySQL 8.0 or later.
-
-MySQL Workbench is recommended for visual execution and result capture, but the scripts can also be executed with the MySQL CLI.
-
-```bash
-mysql --version
+```powershell
+cd submission
+mysql --local-infile=1 -u root -p < sql/run_all_for_grading.sql
 ```
 
-The scripts use `utf8mb4` for Korean text and InnoDB for foreign key and transaction support.
+이미 `submission` 폴더 안에 있다면 아래 명령만 실행합니다.
 
-## 🚀 Quick Start
-
-Run the schema script first.
-
-```bash
-mysql -u root -p < sql/schema.sql
+```powershell
+mysql --local-infile=1 -u root -p < sql/run_all_for_grading.sql
 ```
 
-Then run the optimization and advanced-feature script.
+실행이 끝나면 `bokyung` 데이터베이스가 생성되고, 기본 테이블·샘플 데이터·공식 학과 데이터·CSV 더미 데이터·고급 SQL 객체가 모두 반영됩니다.
 
-```bash
-mysql -u root -p < sql/optimization.sql
-```
+## 주요 SQL
 
-Execution order:
-
-```text
-1. sql/schema.sql
-2. sql/optimization.sql
-```
-
-`optimization.sql` assumes that `schema.sql` has already created the `bokyung` database and base sample data.
-
-## ✅ Validation
-
-The project validates the following database constraints and behaviors:
-
-| Validation Target | Method |
+| 파일 | 목적 |
 | --- | --- |
-| Entity integrity | every table has a non-null unique primary key |
-| Referential integrity | 7 foreign keys with `RESTRICT`, `SET NULL`, and `CASCADE` rules |
-| Domain integrity | `CHECK` constraints for score, grade year, and credit range |
-| Key integrity | `UNIQUE` constraints for department name, email, enrollment pair, and grade mapping |
-| Duplicate prevention | `UNIQUE(stuid, lid, semester)` blocks repeated registration |
-| 1:1 grade mapping | `Grade.enrollid` is both FK and UNIQUE |
+| `sql/schema.sql` | DB, 테이블, 기본 샘플 데이터 생성 |
+| `sql/jnu_public_seed.sql` | 공식 공개 학과 데이터와 관련 View/Procedure/Index 생성 |
+| `sql/optimization.sql` | SQL 내부 대용량 데이터와 인덱스 성능 실험 |
+| `sql/load_large_dummy_csv.sql` | CSV 대용량 데이터 적재 |
+| `sql/run_all_for_grading.sql` | 전체 실행 통합 스크립트 |
 
-Example validation queries are included in `sql/schema.sql` and documented in `docs/03_개발완료보고서.md`.
+## 도구
 
-## 🔬 Advanced Features
-
-| Feature | Implementation |
+| 파일 | 목적 |
 | --- | --- |
-| View | `StudentGradeView`, `LectureStatView` |
-| Stored Procedure | `GetStudentGrade(p_stuid)` |
-| Transaction | course registration and grade insertion with `COMMIT`, `ROLLBACK`, `SAVEPOINT` |
-| Bulk Data | generated students, lectures, enrollments, and grades for performance testing |
-| Index Optimization | name-search indexes with `EXPLAIN` and `EXPLAIN ANALYZE` comparison |
+| `tools/generate_large_dummy_csv.py` | 대용량 더미 CSV 재생성 |
+| `tools/crawl_jnu_public_academic_data.py` | 전남대학교 공개 학과 데이터 재수집 |
+| `tools/draw_schema_diagrams.py` | ERD와 관계 스키마 이미지 생성 |
 
-The index experiment confirms that query access changes from full scan (`ALL`) to indexed lookup (`ref`) after index creation.
+## 검증값
 
-## 📝 Documentation
+`run_all_for_grading.sql` 마지막 검증 쿼리의 기대값입니다.
 
-| Document | Purpose |
+| 항목 | 기대값 |
 | --- | --- |
-| `docs/01_요구사항지시서.md` | requirement analysis, entities, attributes, relationships |
-| `docs/02_스키마정의서.md` | table schema, FK design, integrity constraints |
-| `docs/03_개발완료보고서.md` | conceptual/logical modeling, FD analysis, normalization, SQL implementation |
-| `docs/erd_description.md` | ERD structure and relationship explanation |
-| `screenshots/실행결과_텍스트증거.md` | execution-result evidence in text form |
+| Database | `bokyung` |
+| Base tables | `6` |
+| Official public departments | `114` |
+| CSV students | `10000` |
+| CSV lectures | `1000` |
+| CSV enrollments | `50000` |
+| CSV grades | `50000` |
+| Views | `4` |
+| Procedures | `2` |
 
-## 📦 Submission Notes
+## 실행 조건
 
-The `제출용/` directory contains a compact submission copy of the main documentation and SQL scripts.
+- MySQL 8.0 이상 권장
+- `LOAD DATA LOCAL INFILE` 사용 가능해야 함
+- CSV 경로는 실행 위치 기준 상대경로이므로 `submission` 폴더에서 실행
 
-The `한글_제출본문/` directory contains Markdown-formatted Korean body text intended for transfer into a Hangul document format.
+권한 오류가 나면 MySQL에서 아래를 한 번 실행합니다.
 
-## ⚠️ Notes
-
-- Run `schema.sql` before `optimization.sql`.
-- MySQL 8.0.18 or later is recommended for `EXPLAIN ANALYZE`.
-- The database name used in the scripts is `bokyung`.
-- Generated DB dumps, local archives, editor settings, and runtime artifacts are excluded through `.gitignore`.
+```sql
+SET GLOBAL local_infile = 1;
+```

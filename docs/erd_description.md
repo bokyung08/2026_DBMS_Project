@@ -1,6 +1,6 @@
-# ERD 설명서 (Entity-Relationship Diagram Description)
+﻿# ERD 설명서 (Entity-Relationship Diagram Description)
 
-**프로젝트:** 전남대학교 수강신청·성적관리 데이터베이스
+**프로젝트:** 전남대학교 학생 정보·성적관리 데이터베이스
 **작성일:** 2026-05-31
 **표기법:** Crow's Foot (까마귀 발) 표기법 기준 설명
 
@@ -128,3 +128,4 @@
 5. **약 개체** → 소유 개체의 키를 FK(NOT NULL)로 포함하여 식별 관계 표현.
 
 > 변환 결과의 구체적 테이블 정의(컬럼 타입, 제약)는 `02_스키마정의서.md`와 `sql/schema.sql`을 참조한다.
+

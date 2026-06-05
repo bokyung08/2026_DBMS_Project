@@ -35,3 +35,29 @@ node_modules/
 dist/
 build/
 
+# Project process notes and local review drafts
+claude.md
+decisions.md
+devlog.md
+project_plan.md
+project_state.md
+task_list.md
+final_checklist.md
+최종_제출전_체크리스트.md
+최종_종합_산출물.md
+한글양식_배치가이드.md
+
+# Capture-only and manual-report artifacts
+screenshots/
+한글_제출본문/
+docs/04_자체검토보고서.md
+docs/05_프로젝트_이해가이드.md
+docs/06_캡처용_SQL.md
+docs/07_Workbench_캡처_가이드.md
+docs/08_노션_캡처_삽입용_표.md
+
+# submission keeps only code, data, and README
+submission/docs/
+submission/diagrams/
+submission/00_최종_제출_가이드.md
+submission/실행결과_정리.md
